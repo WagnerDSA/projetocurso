@@ -6,10 +6,13 @@ import java.util.Optional;
 
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.wagnerpupo.CursoMC.domain.Categoria;
 import com.wagnerpupo.CursoMC.repositories.CategoriaRepository;
+import com.wagnerpupo.CursoMC.resources.exception.DataIntergrityException;
+
 
 @Service
 public class CategoriaService {
@@ -32,5 +35,18 @@ public Categoria update (Categoria obj){
 
 	find(obj.getId());
 	return repo.save(obj);
-	
+}
+
+public void delete (Integer id) {
+
+	find(id);
+	try{
+	repo.deleteById(id);
+}
+catch(DataIntegrityViolationException e){
+
+
+
+}
+}
 }
