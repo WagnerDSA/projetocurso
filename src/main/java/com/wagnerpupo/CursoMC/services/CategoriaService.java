@@ -2,6 +2,7 @@ package com.wagnerpupo.CursoMC.services;
 
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.ObjectNotFoundException;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.wagnerpupo.CursoMC.domain.Categoria;
 import com.wagnerpupo.CursoMC.repositories.CategoriaRepository;
-import com.wagnerpupo.CursoMC.resources.exception.DataIntergrityException;
 
 
 @Service
@@ -43,10 +43,16 @@ public void delete (Integer id) {
 	try{
 	repo.deleteById(id);
 }
+
 catch(DataIntegrityViolationException e){
 
+}
+}
 
+public List<Categoria> findAll() {
+
+	return repo.findAll();
 
 }
 }
-}
+
