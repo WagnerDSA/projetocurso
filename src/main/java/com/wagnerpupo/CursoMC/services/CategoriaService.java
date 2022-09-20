@@ -1,7 +1,5 @@
 package com.wagnerpupo.CursoMC.services;
 
-
-
 import java.util.List;
 import java.util.Optional;
 
@@ -13,55 +11,63 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.wagnerpupo.CursoMC.DTO.CategoriaDTO;
 import com.wagnerpupo.CursoMC.domain.Categoria;
 import com.wagnerpupo.CursoMC.repositories.CategoriaRepository;
-
 
 @Service
 public class CategoriaService {
 
 	@Autowired
 	private CategoriaRepository repo;
-	
-	public Categoria find (Integer id) {
-		 Optional<Categoria> obj = repo.findById(id);
+
+	public Categoria find(Integer id) {
+		Optional<Categoria> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-		 "Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName(), null));
-		} 
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName(), null));
+	}
 
-public Categoria insert (Categoria obj){
-	obj.setId(null);
-	return repo.save(obj);
+	public Categoria insert(Categoria obj) {
+		obj.setId(null);
+		return repo.save(obj);
+
+	}
+
+	public Categoria update(Categoria obj) {
+
+		find(obj.getId());
+		return repo.save(obj);
+	}
+
+	public void delete(Integer id) {
+
+		find(id);
+		try {
+			repo.deleteById(id);
+		}
+
+		catch (DataIntegrityViolationException e) {
+
+		}
+	}
+
+	public List<Categoria> findAll() {
+
+		return repo.findAll();
+
+	}
+
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
+
+	}
+
+	public Categoria fromDTO(CategoriaDTO objDto) {
+
+		return new Categoria(objDto.getId(), objDto.getNome());
+
+	}
 
 }
-public Categoria update (Categoria obj){
-
-	find(obj.getId());
-	return repo.save(obj);
-}
-
-public void delete (Integer id) {
-
-	find(id);
-	try{
-	repo.deleteById(id);
-}
-
-catch(DataIntegrityViolationException e){
-
-}
-}
-
-public List<Categoria> findAll() {
-
-	return repo.findAll();
-
-}
-public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy ,String direction){
-
-	PageRequest pageRequest = PageRequest.of(page ,linesPerPage,Direction.valueOf(direction),orderBy);
-	return repo.findAll(pageRequest);
-	
-}
-}
-
