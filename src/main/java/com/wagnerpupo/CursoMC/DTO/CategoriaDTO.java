@@ -3,11 +3,12 @@ package com.wagnerpupo.CursoMC.DTO;
 import java.io.Serializable;
 
 import com.wagnerpupo.CursoMC.domain.Categoria;
-
 public class CategoriaDTO  implements Serializable  {
 	private static final long serialVersionUID = 1L;
 	
     private Integer id;
+
+    
 	private String nome;
 
     public CategoriaDTO(){
